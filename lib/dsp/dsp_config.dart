@@ -81,6 +81,12 @@ class DspConfig {
   final double snrMin;
   final double bandPowerRatioMin;
   final double consistencyMin;
+
+  /// Welch segment length in samples at the target rate (4 s at 50 Hz = 200).
+  int get segmentSamples => (segmentS * targetFsHz).round();
+
+  /// Overlap between consecutive Welch segments (50% gives 100 at 200 samples).
+  int get overlapSamples => (segmentSamples * overlapFraction).round();
 }
 
 const _sosRowLength = 6;
