@@ -4,7 +4,6 @@ import '../../../../core/strings/app_strings.dart';
 import '../../../../core/widgets/_widgets.dart';
 import '../../../../dsp/_dsp.dart';
 import 'signal_chart.dart';
-import 'spectrum_chart.dart';
 
 /// Debug views after a successful analysis (CLAUDE.md section 9).
 class ResultView extends StatelessWidget {
@@ -32,10 +31,10 @@ class ResultView extends StatelessWidget {
           SignalChart(values: debug.filteredX, sampleRateHz: config.targetFsHz),
           const SizedBox(height: 12),
           Text(AppStrings.spectrumTitle, style: textTheme.titleSmall),
-          SpectrumChart(
-            spectrum: debug.spectrum,
-            tremorBandHz: config.tremorBandHz,
-          ),
+          // SpectrumChart(
+          //   spectrum: debug.spectrum,
+          //   tremorBandHz: config.tremorBandHz,
+          // ),
           const SizedBox(height: 16),
         ],
         if (features != null) ...[

@@ -39,6 +39,19 @@ void main() {
     expect(loaded.result.status.name, 'tremor');
   });
 
+  // The app restarts between recordings and history views. After a reopen, Hive
+  // hands back nested maps as Map<dynamic, dynamic>, which the in-memory test
+  // never does.
+  test('reads sessions after the boxes are reopened from disk', () async {
+    await repository.saveSession(sessionFixture(), signalsFixture());
+
+    await Hive.close();
+    await hive.openBoxes();
+
+    final sessions = await repository.getSessions();
+    expect(sessions.map((s) => s.id), ['session-1']);
+  });
+
   test('lists sessions newest first', () async {
     await repository.saveSession(
       sessionFixture(id: 'older', createdAt: DateTime.utc(2026, 10, 1)),

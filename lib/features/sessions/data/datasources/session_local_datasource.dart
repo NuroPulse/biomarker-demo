@@ -7,15 +7,30 @@ class SessionLocalDatasource {
   final HiveService _hive;
 
   List<Map<String, dynamic>> readAll() {
-    return [
-      for (final value in _hive.sessions.values)
-        Map<String, dynamic>.from(value),
-    ];
+    return [for (final value in _hive.sessions.values) _toJsonMap(value)];
   }
 
   Map<String, dynamic>? read(String id) {
     final value = _hive.sessions.get(id);
-    return value == null ? null : Map<String, dynamic>.from(value);
+    return value == null ? null : _toJsonMap(value);
+  }
+
+  /// Hive returns nested maps as `Map<dynamic, dynamic>` after a reopen, and the
+  /// generated fromJson casts them to `Map<String, dynamic>`, so the whole tree
+  /// is converted here.
+  static Map<String, dynamic> _toJsonMap(Map<dynamic, dynamic> map) {
+    return {
+      for (final entry in map.entries)
+        entry.key as String: _toJsonValue(entry.value),
+    };
+  }
+
+  static Object? _toJsonValue(Object? value) {
+    return switch (value) {
+      Map() => _toJsonMap(value),
+      List() => [for (final item in value) _toJsonValue(item)],
+      _ => value,
+    };
   }
 
   Future<void> write(String id, Map<String, dynamic> json) {
