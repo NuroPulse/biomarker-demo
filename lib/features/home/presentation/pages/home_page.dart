@@ -5,8 +5,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("NuroPulse mana suaranya?!")),
+    return Scaffold(
+      appBar: AppBar(title: const Text(AppStrings.appTitle)),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FilledButton(
+              onPressed: () => context.push('/measure'),
+              child: const Text(AppStrings.start),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton(
+              onPressed: () => context.push('/sessions'),
+              child: const Text(AppStrings.savedSessions),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
