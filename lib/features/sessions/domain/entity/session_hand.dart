@@ -1,0 +1,1 @@
+enum SessionHand { left, right }
