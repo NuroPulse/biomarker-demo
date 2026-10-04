@@ -1,3 +1,4 @@
+import 'dsp_debug_data.dart';
 import 'gate_result.dart';
 import 'qc_result.dart';
 import 'tremor_features.dart';
@@ -9,6 +10,7 @@ class TremorResult {
     required this.qc,
     required this.gates,
     this.features,
+    this.debug,
   });
 
   final TremorStatus status;
@@ -17,4 +19,7 @@ class TremorResult {
 
   /// Null when a gate failed before features were computed.
   final TremorFeatures? features;
+
+  /// Null when a gate failed before the signal chain ran.
+  final DspDebugData? debug;
 }
